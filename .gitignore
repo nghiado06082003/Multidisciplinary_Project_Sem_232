@@ -23,3 +23,4 @@
 /web/yarn-error.log*
 
 /server/*/__pycache__
+/server/.env

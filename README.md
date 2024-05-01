@@ -12,6 +12,8 @@ Sau đó, quay ra thư mục gốc và cài thư viện cho web (frontend):
 cd ../web
 npm i
 ```
+Tiếp theo, cần thiết lập biến môi trường `.env` cho server. Vào thư mục server, tạo file mới không tên với phần mở rộng là `.env`. Sau đó, mở file `.env_example` và sao chép nội dung vào file `.env` vừa tạo. Thay thế chuỗi rỗng của `ADA_USER` và `ADA_KEY` trong file `.env` vừa được chép nội dung với thông tin đã được gửi trên group nhóm.
+
 Cuối cùng, cần cài đặt chứng chỉ bảo mật để đảm bảo có thể xác thực được với Mongo Atlas. Tham khảo cách làm cũng như lý do cần cài đặt tại đây: [StackOverflow](https://stackoverflow.com/questions/69397039/pymongo-ssl-certificate-verify-failed-certificate-has-expired-on-mongo-atlas)
 
 Lưu ý, bước cài đặt chứng chỉ này có thể là không bắt buộc vì không phải máy nào cũng bị thiếu.
