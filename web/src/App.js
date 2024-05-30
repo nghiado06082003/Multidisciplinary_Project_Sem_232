@@ -10,9 +10,9 @@ import { LogIn } from './components/login/logIn';
 function App() {
   return (
     <Routes>
+      <Route path='/login' element={<LogIn />} />
       <Route path="/" element={<NavBar />}>
         <Route index element={<Homepage />} />
-        <Route path='login' element={<LogIn />} />
         <Route path='gardens'>
           <Route index element={<GardensList />} />
           <Route path=':garden_id/rooms'>
