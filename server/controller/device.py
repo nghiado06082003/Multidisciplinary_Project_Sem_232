@@ -127,8 +127,8 @@ class SingleDeviceAPI(Resource):
             return create_response('', err)
 
         device = device_list[0]
-        group_key = device.data["garden_id"]
-        feed_key = device.data["_id"]
+        group_key = device.data["garden_id"].lower()
+        feed_key = device.data["_id"].lower()
 
         try:
             data = record['data']
@@ -160,12 +160,13 @@ class SingleDeviceAPI(Resource):
         except Exception as err:
             return create_response('', err)
         
-        group_key = device.data["garden_id"]
-        feed_key = device.data["_id"]
+        group_key = device.data["garden_id"].lower()
+        feed_key = device.data["_id"].lower()
 
         try:
             adafruit_server.delete_feed(feed_key="{}.{}".format(group_key, feed_key))
-        except:
+        except Exception as err:
+            print(err)
             return create_response('', AdafruitError())
         
         return create_response(device.data)

@@ -41,7 +41,7 @@ class LoginAPI(Resource):
         if user.data['password'] == password:
             token = jwt.encode({
                 'public_id': user.data['_id'],
-                'exp' : datetime.utcnow() + timedelta(minutes=90)
+                'exp' : datetime.utcnow() + timedelta(hours=24)
             }, config.server.SECRET_KEY)
             return create_response(data=parse_json(user.data), token=token, code=201)
 

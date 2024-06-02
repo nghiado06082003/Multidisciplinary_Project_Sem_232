@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import classnames from 'classnames'
-import { useAddNewGardenMutation, useDeleteGardenMutation, useGetAllGardensQuery } from '../../api/apiSlice'
+import { useAddNewGardenMutation, useDeleteGardenMutation, useGetAllGardensQuery } from './gardenService'
 
 export const GardensList = () => {
     const {

@@ -27,16 +27,43 @@ class RoomModel():
         try:
             room_name = record['name']
             garden_id = record['garden_id']
+            isAutoFan = record['isAutoFan']
+            threshold = record['threshold']
         except:
             raise LackRequestData()
         
-        room = Room(garden_id=garden_id, name=room_name)
+        room = Room(garden_id=garden_id, name=room_name,
+                    isAutoFan=isAutoFan, threshold=threshold)
         
         try:
             self._database.add_data(room)
         except:
             raise RecordInsertError(record)
         
+        return room
+    
+    def update_room(self, record):
+        try:
+            room_id = record['room_id']
+            isAutoFan = record['isAutoFan']
+            threshold = record['threshold']
+        except:
+            raise LackRequestData()
+        try:
+            room_list = self.get_room(room_id)
+        except Exception as err:
+            raise RecordNotFound(room_id)
+        room = room_list[0]
+        room.data["isAutoFan"] = isAutoFan
+        room.data["threshold"] = threshold
+        update_data = {
+            "isAutoFan": isAutoFan,
+            "threshold": threshold
+        }
+        try:
+            self._database.update_one_data(room, update_data)
+        except:
+            raise RecordUpdateError(room_id)
         return room
 
     def delete_room(self, room_id):

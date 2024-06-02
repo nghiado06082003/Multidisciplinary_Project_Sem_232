@@ -2,10 +2,18 @@ import React from 'react'
 import { useState } from "react"
 import { Link, useParams } from 'react-router-dom'
 import classnames from 'classnames'
-import { useAddNewDeviceMutation, useDeleteDeviceMutation, useGetAllDevicesByRoomIdQuery } from '../../api/apiSlice'
+import { useAddNewDeviceMutation, useDeleteDeviceMutation, useGetAllDevicesByRoomIdQuery, useGetRoomByIdQuery, useUpdateRoomByRoomIdMutation } from './roomService'
 
 export const RoomDeviceList = () => {
     const { garden_id, room_id } = useParams()
+    const {
+        data: room_info,
+        isLoading: isLoad,
+        isFetching: isFetch,
+        isSuccess: isSucc,
+        isError: isErr,
+        error: err,
+    } = useGetRoomByIdQuery(room_id)
     const {
         data: device_list,
         isLoading,
@@ -16,21 +24,31 @@ export const RoomDeviceList = () => {
         refetch
     } = useGetAllDevicesByRoomIdQuery(room_id)
 
-    let content = null
+    let room_content = null
+    let device_content = null
     const [deleteDevice] = useDeleteDeviceMutation()
     const [addDevice] = useAddNewDeviceMutation()
+    const [updateRoom] = useUpdateRoomByRoomIdMutation()
 
-    const [deviceType, setDeviceType] = useState('')
+    const [deviceType, setDeviceType] = useState('temp-sensor')
+    const [deviceName, setDeviceName] = useState('')
+    const [isAutoFan, setIsAutoFan] = useState('1')
+    const [threshold, setThreshold] = useState('')
 
     const onDeviceTypeChange = e => setDeviceType(e.target.value)
+    const onDeviceNameChange = e => setDeviceName(e.target.value)
+    const onIsAutoFanChange = e => setIsAutoFan(e.target.value)
+    const onThresHoldChange = e => setThreshold(e.target.value)
 
-    const canSave = [deviceType].every(Boolean) && !isLoading
+    const canSaveDevice = [deviceType].every(Boolean) && !isLoading
+    const canSaveRoom = [isAutoFan, threshold].every(Boolean) && !isLoad
 
-    const onSaveClicked = async () => {
-        if (canSave) {
+    const onSaveDeviceClicked = async () => {
+        if (canSaveDevice) {
             try {
-                await addDevice({ garden_id: garden_id, room_id: room_id, type: deviceType })
-                setDeviceType('')
+                await addDevice({ garden_id: garden_id, room_id: room_id, type: deviceType, name: deviceName })
+                setDeviceType('temp-sensor')
+                setDeviceName('')
             }
             catch (err) {
                 alert(err)
@@ -38,15 +56,49 @@ export const RoomDeviceList = () => {
         }
     }
 
+    const onSaveRoom = async () => {
+        if (true) {
+            console.log(isAutoFan)
+            try {
+                await updateRoom({ room_id: room_id, isAutoFan: isAutoFan == 1, threshold: threshold })
+                setIsAutoFan('1')
+                setThreshold('')
+            }
+            catch (err) {
+                alert(err)
+            }
+        }
+    }
+
+    if (isLoad) {
+        room_content = (
+            <div className="spinner-border text-primary" role="status">
+                <span className="visually-hidden">Đang tải nội dung...</span>
+            </div>
+        )
+    }
+    else if (isSucc) {
+        room_content = (
+            <>
+                <h6>Tên phòng: {room_info.data[0].name}</h6>
+                <h6>Tự động bật quạt: {room_info.data[0].isAutoFan ? "Bật" : "Tắt"}</h6>
+                <h6>Nhiệt độ thiết lập: {room_info.data[0].isAutoFan ? room_info.data[0].threshold : "--"}</h6>
+            </>
+        )
+    }
+    else if (isErr) {
+        room_content = <h6 class="text-danger">{err.toString()}</h6>
+    }
+
     if (isLoading) {
-        content = (
+        device_content = (
             <div className="spinner-border text-primary" role="status">
                 <span className="visually-hidden">Đang tải nội dung...</span>
             </div>
         )
     }
     else if (isSuccess) {
-        let pre_content = (
+        let pre_device_content = (
             <table className="table">
                 <thead>
                     <tr>
@@ -74,18 +126,56 @@ export const RoomDeviceList = () => {
         const containerClassname = classnames('devices-container', {
             disabled: isFetching
         })
-        content = <div className={containerClassname}>{pre_content}</div>
+        device_content = <div className={containerClassname}>{pre_device_content}</div>
     }
     else if (isError) {
-        content = <h6 class="text-danger">{error.toString()}</h6>
+        device_content = <h6 class="text-danger">{error.toString()}</h6>
     }
 
     return (
         <div className='container-md'>
+            <h2>Thông tin phòng </h2>
+            <div className='row'>
+                <div className='col'>
+                    {room_content}
+                </div>
+            </div>
+            <div className='row'>
+                <form>
+                    <div className='col-auto'>
+                        <label for="roomMode" className="form-label">Áp dụng chế độ tự động</label>
+                        <select
+                            className='form-select'
+                            id='roomMode'
+                            name='roomMode'
+                            value={isAutoFan}
+                            onChange={onIsAutoFanChange}
+                        >
+                            <option value="1">Bật</option>
+                            <option value="-1">Tắt</option>
+                        </select>
+                    </div>
+                    <div className='col-auto'>
+                        <label for="roomThreshold" className="form-label">Giá trị nhiệt thiết lập</label>
+                        <input
+                            type="number"
+                            className='form-control'
+                            id="roomThreshold"
+                            name="roomThreshold"
+                            step="0.01"
+                            value={threshold}
+                            onChange={onThresHoldChange}
+                        />
+                    </div>
+                </form>
+                <div className='col-auto'>
+                    <button className='btn btn-primary' onClick={onSaveRoom}>Chỉnh sửa chế độ phòng</button>
+                </div>
+            </div>
             <h2>Danh sách thiết bị </h2>
             <div className='row align-items-center'>
-                <div className='col-auto'>
-                    <form>
+                <form>
+                    <div className='col-auto'>
                         <label for="deviceType" className="form-label">Loại thiết bị muốn thêm:</label>
                         <select
                             className='form-select'
@@ -102,10 +192,21 @@ export const RoomDeviceList = () => {
                             <option value="fan">Quạt</option>
                             <option value="sprinkler">Máy tưới nước</option>
                         </select>
-                    </form>
-                </div>
+                    </div>
+                    <div className='col-auto'>
+                        <label for="deviceName" className="form-label">Tên thiết bị mới</label>
+                        <input
+                            type="text"
+                            className='form-control'
+                            id="deviceName"
+                            name="deviceName"
+                            value={deviceName}
+                            onChange={onDeviceNameChange}
+                        />
+                    </div>
+                </form>
                 <div className='col-auto'>
-                    <button className='btn btn-primary' onClick={onSaveClicked}>Thêm thiết bị mới</button>
+                    <button className='btn btn-primary' onClick={onSaveDeviceClicked}>Thêm thiết bị mới</button>
                 </div>
             </div>
             <div className='row justify-content-end'>
@@ -115,7 +216,7 @@ export const RoomDeviceList = () => {
             </div>
             <div className='row justify-content-center'>
                 <div className='col'>
-                    {content}
+                    {device_content}
                 </div>
             </div>
         </div>

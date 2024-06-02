@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import classnames from 'classnames'
-import { useAddNewRoomMutation, useDeleteRoomMutation, useGetRoomByGardenIdQuery } from '../../api/apiSlice'
+import { useAddNewRoomMutation, useDeleteRoomMutation, useGetRoomByGardenIdQuery } from './gardenService'
 
 export const GardenRoomList = () => {
     const { garden_id } = useParams()
@@ -20,15 +20,23 @@ export const GardenRoomList = () => {
     const [addRoom] = useAddNewRoomMutation()
 
     const [roomName, setRoomName] = useState('')
+    const [isAutoFan, setIsAutoFan] = useState('1')
+    const [threshold, setThreshold] = useState('')
+
     const onRoomNameChange = e => setRoomName(e.target.value)
+    const onIsAutoFanChange = e => setIsAutoFan(e.target.value)
+    const onThresHoldChange = e => setThreshold(e.target.value)
 
     const onSaveClicked = async () => {
         try {
-            await addRoom({ garden_id: garden_id, name: roomName })
+            await addRoom({ garden_id: garden_id, name: roomName, isAutoFan: isAutoFan == 1, threshold: threshold })
             setRoomName('')
+            setIsAutoFan('1')
+            setThreshold('')
         }
         catch (err) {
             alert(err)
+            console.log(err)
         }
     }
 
@@ -76,8 +84,8 @@ export const GardenRoomList = () => {
         <div className='container-md'>
             <h2>Danh sách phòng trong vườn </h2>
             <div className='row align-items-center'>
-                <div className='col-auto'>
-                    <form>
+                <form>
+                    <div className='col-auto'>
                         <label for="roomName" className="form-label">Tên phòng muốn thêm</label>
                         <input
                             type="text"
@@ -87,8 +95,33 @@ export const GardenRoomList = () => {
                             value={roomName}
                             onChange={onRoomNameChange}
                         />
-                    </form>
-                </div>
+                    </div>
+                    <div className='col-auto'>
+                        <label for="roomMode" className="form-label">Áp dụng chế độ tự động</label>
+                        <select
+                            className='form-select'
+                            id='roomMode'
+                            name='roomMode'
+                            value={isAutoFan}
+                            onChange={onIsAutoFanChange}
+                        >
+                            <option value="1">Bật</option>
+                            <option value="-1">Tắt</option>
+                        </select>
+                    </div>
+                    <div className='col-auto'>
+                        <label for="roomThreshold" className="form-label">Giá trị nhiệt thiết lập</label>
+                        <input
+                            type="number"
+                            className='form-control'
+                            id="roomThreshold"
+                            name="roomThreshold"
+                            step="0.01"
+                            value={threshold}
+                            onChange={onThresHoldChange}
+                        />
+                    </div>
+                </form>
                 <div className='col-auto'>
                     <button className='btn btn-primary' onClick={onSaveClicked}>Thêm phòng mới</button>
                 </div>

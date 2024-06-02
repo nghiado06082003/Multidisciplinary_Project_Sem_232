@@ -50,9 +50,10 @@ class DeviceModel():
             garden_id = record['garden_id']
             room_id = record['room_id']
             device_type = record['type']
+            name = record['name']
         except:
             raise LackRequestData()
-        device = Device(type=device_type, garden_id=garden_id, room_id=room_id)
+        device = Device(type=device_type, garden_id=garden_id, room_id=room_id, name=name)
         try:
             self._database.add_data(device)
         except:

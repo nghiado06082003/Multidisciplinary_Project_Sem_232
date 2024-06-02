@@ -41,7 +41,7 @@ Put API here require:
 - `api/v1/device`: insert new device to database
 
 Post API here require:
-- `garden_id`, `room_id` and `type` in body data to create new device in database
+- `name`, `garden_id`, `room_id` and `type` in body data to create new device in database
 
 #### DELETE API
 - `api/v1/device/<device_id>`: delete device in database
@@ -71,6 +71,12 @@ Post API here require:
 
 Post API here require:
 - `garden_id` and `name` in body data to create new room in database
+
+#### PUT API
+- `api/v1/room/<room_id>`: update room data
+
+Put API here require:
+- `room_id`, `isAutoFan`, `threshold` in body data to update room data in database
 
 #### DELETE API
 - `/api/v1/room/<room_id>`: delete room by id

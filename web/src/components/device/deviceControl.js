@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import classnames from 'classnames'
-import { useGetDeviceByIdWithLogQuery, useUpdateDeviceDataMutation } from '../../api/apiSlice'
+import { useGetDeviceByIdWithLogQuery, useUpdateDeviceDataMutation } from './deviceService'
 
 export const DeviceControl = () => {
     const { garden_id, room_id, device_id } = useParams()

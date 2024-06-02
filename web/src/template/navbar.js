@@ -1,11 +1,20 @@
-import React from 'react'
-import { Link, Outlet } from 'react-router-dom'
+import React, { useState } from 'react'
+import { Link, Outlet, useNavigate } from 'react-router-dom'
 import Cookies from "universal-cookie";
 const cookies = new Cookies();
 
 export const NavBar = () => {
-    const token = cookies.get("access-token");
+    const navigate = useNavigate();
+    const [token, setToken] = useState(cookies.get("access-token"));
     let navItem = null
+
+    const handleSignOut = (e) => {
+        cookies.remove('access-token', {
+            path: "/",
+        });
+        setToken(null)
+        navigate("/")
+    }
 
     if (token) {
         navItem = (
@@ -17,6 +26,9 @@ export const NavBar = () => {
                         </Link>
                     </li>
                 </ul>
+                <button type="submit" className="btn btn-primary" onClick={handleSignOut}>
+                    Đăng xuất
+                </button>
             </div>
         )
     }
