@@ -44,7 +44,7 @@ const CameraCapture = () => {
     };
 
     const detectPerson = async (imageData) => {
-        const apiKey = 'AIzaSyCzVMkc8TKfHJqbJBwkcVr5X-gjcY3WaKw'; 
+        const apiKey = 'API-KEY'; 
         const response = await fetch(
         `https://vision.googleapis.com/v1/images:annotate?key=${apiKey}`,
         {
