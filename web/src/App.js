@@ -7,6 +7,7 @@ import { RoomDeviceList } from './components/room/roomDeviceList';
 import { DeviceControl } from './components/device/deviceControl';
 import { LogIn } from './components/login/logIn';
 import { AutoModeProvider } from './components/room/autoModeContext';
+import CameraCapture from './components/room/cameraCapture';
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
               <Route path=':room_id/devices'>
                 <Route index element={<RoomDeviceList />} />
                 <Route path=':device_id' element={<DeviceControl />} />
+              </Route>
+              <Route path=':room_id/camera'>
+              <Route index element={<CameraCapture />} />
               </Route>
             </Route>
           </Route>

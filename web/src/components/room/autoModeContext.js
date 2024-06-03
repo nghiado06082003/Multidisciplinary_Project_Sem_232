@@ -142,7 +142,32 @@ export const AutoModeProvider = ({ children }) => {
             }
         }
     };
-
+    const toggleAutoLed = async (roomId, gardenId, mode) => {
+        const leds = device_list_room.data.filter(device => device.type === 'led' && device.room_id === roomId && device.garden_id === gardenId);
+        console.log(leds)
+        if (mode) {
+            console.log("Activate Led");
+            for (const led of leds) {
+                /*
+                if (led.curr_state == "0" || led.curr_state == null) {
+                    console.log("ON");
+                    await updateDevice({ device_id: led._id, data: "1" });
+                }*/
+                await updateDevice({ device_id: led._id, data: "1" });
+            }
+        }
+        else {
+            console.log("Deactivate Led");
+            for (const led of leds) {
+                /*if (led.curr_state == "1" || led.curr_state == null) {
+                    console.log("OFF");
+                    await updateDevice({ device_id: led._id, data: "0" });
+                }*/
+                await updateDevice({ device_id: led._id, data: "0" });
+            }
+        }
+        
+    }
     const toggleAutoMode = (roomId) => {
         setIsOn(prevIsOn => ({
             ...prevIsOn,
@@ -163,6 +188,7 @@ export const AutoModeProvider = ({ children }) => {
         toggleAutoMode,
         thresholds,
         setThreshold,
+        toggleAutoLed,
     };
 
     return (
