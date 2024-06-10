@@ -3,7 +3,7 @@ import { useState } from "react"
 import { Link, useParams } from 'react-router-dom'
 import classnames from 'classnames'
 import { useAddNewDeviceMutation, useDeleteDeviceMutation, useGetAllDevicesByRoomIdQuery, useGetRoomByIdQuery, useUpdateRoomByRoomIdMutation } from './roomService'
-
+import './roomStyle.css'
 export const RoomDeviceList = () => {
     const { garden_id, room_id } = useParams()
     const {
@@ -82,7 +82,7 @@ export const RoomDeviceList = () => {
             <>
                 <h6>Tên phòng: {room_info.data[0].name}</h6>
                 <h6>Tự động bật quạt: {room_info.data[0].isAutoFan ? "Bật" : "Tắt"}</h6>
-                <h6>Nhiệt độ thiết lập: {room_info.data[0].isAutoFan ? room_info.data[0].threshold : "--"}</h6>
+                <h6>Nhiệt độ thiết lập: {room_info.data[0].isAutoFan ? room_info.data[0].threshold : "--"}</h6> 
             </>
         )
     }
@@ -133,44 +133,43 @@ export const RoomDeviceList = () => {
     }
 
     return (
-        <div className='container-md'>
+        <div className='container-md px-4'>
             <h2>Thông tin phòng </h2>
-            <div className='row'>
-                <div className='col'>
+            <div className="border border-2 rounded-4 shadow pt-2 pb-2 px-5">
                     {room_content}
-                </div>
-            </div>
-            <div className='row'>
                 <form>
-                    <div className='col-auto'>
-                        <label for="roomMode" className="form-label">Áp dụng chế độ tự động</label>
-                        <select
-                            className='form-select'
-                            id='roomMode'
-                            name='roomMode'
-                            value={isAutoFan}
-                            onChange={onIsAutoFanChange}
-                        >
-                            <option value="1">Bật</option>
-                            <option value="-1">Tắt</option>
-                        </select>
-                    </div>
-                    <div className='col-auto'>
-                        <label for="roomThreshold" className="form-label">Giá trị nhiệt thiết lập</label>
-                        <input
-                            type="number"
-                            className='form-control'
-                            id="roomThreshold"
-                            name="roomThreshold"
-                            step="0.01"
-                            value={threshold}
-                            onChange={onThresHoldChange}
-                        />
+                    <div className='d-flex mt-5 mb-3'>
+                        <div className='col-auto mb-1 adjustAutoMode'>
+                            <label for="roomMode"  className="form-label fw-semibold adjustAutoModeLabel">Áp dụng chế độ tự động</label>
+                            <select
+                                className='form-select pt-3 px-4 border-2 border-success adjustAutoModeInput'
+                                id='roomMode'
+                                name='roomMode'
+                                value={isAutoFan}
+                                onChange={onIsAutoFanChange}
+                            >
+                                <option value="1">Bật</option>
+                                <option value="-1">Tắt</option>
+                            </select>
+                        </div>
+                        <div className='col-auto mb-1 adjustAutoMode'>
+                            <label for="roomThreshold" className="form-label fw-semibold adjustAutoModeLabel">Giá trị nhiệt thiết lập</label>
+                            <input
+                                type="number"
+                                className='form-control pt-3 px-4 border-2 border-success adjustAutoModeInput'
+                                id="roomThreshold"
+                                name="roomThreshold"
+                                step="0.01"
+                                value={threshold}
+                                onChange={onThresHoldChange}
+                            />
+                        </div>
+                        <div className='adjustAutoModeButton'>
+                            <button className='btn btn-success' onClick={onSaveRoom}>Chỉnh sửa chế độ phòng</button>
+                        </div>
                     </div>
                 </form>
-                <div className='col-auto'>
-                    <button className='btn btn-primary' onClick={onSaveRoom}>Chỉnh sửa chế độ phòng</button>
-                </div>
+                
             </div>
             <h2>Danh sách thiết bị </h2>
             <div className='row align-items-center'>
