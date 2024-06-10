@@ -1,16 +1,18 @@
 import React from "react";
 import { Link, Outlet } from "react-router-dom";
 import Cookies from "universal-cookie";
+import { useNavigate } from "react-router-dom";
 import "./navbarStyle.css"
 const cookies = new Cookies();
 
 export const NavBar = () => {
   const token = cookies.get("access-token");
   let navItem = null;
+  const navigate = useNavigate();
 
   const handleLogout = () => {
     document.cookie = "access-token=; expires=Thu, 01 Jan 1970 00:00:01 GMT";
-    window.location.reload();
+    navigate('/login');
   }
 
   if (token) {

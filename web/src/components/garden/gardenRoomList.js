@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";  
 import { Link, useParams } from "react-router-dom";
 import classnames from "classnames";
 import {
@@ -92,7 +91,7 @@ export const GardenRoomList = () => {
   return (
     <div className="container-md px-4">
       <h2>Danh sách phòng trong vườn </h2>
-      <div className="border border-2 rounded-3 shadow-sm pt-2 pb-3 px-5">
+      <div className="border border-2 rounded-4 shadow pt-2 pb-3 px-5">
         <h3 className="m-0 text-success">Thêm phòng mới</h3>
         <div className="d-flex">
           <div className="col-auto mb-3 addGarden">
@@ -140,7 +139,7 @@ export const GardenRoomList = () => {
           </div>
         </div>
       </div>
-      <div className="justify-content-center border border-2 rounded-3 shadow px-5 mt-3 pt-3 gardenList">
+      <div className="justify-content-center border border-2 rounded-4 shadow px-5 mt-3 pt-3 gardenList">
         <div className="col">
           <div className="col-auto d-flex justify-content-between mb-3">
             <h3 className="m-0 text-success">Phòng hiện tại</h3>
