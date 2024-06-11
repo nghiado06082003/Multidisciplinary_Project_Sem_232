@@ -69,7 +69,7 @@ export const GardensList = () => {
         </thead>
         <tbody>
           {garden_list.data.map((garden) => (
-            <tr>
+            <tr key={garden._id}>
               <th>{garden._id}</th>
               <td>{garden.name}</td>
               <td>

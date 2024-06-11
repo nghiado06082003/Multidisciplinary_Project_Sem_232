@@ -1,4 +1,4 @@
-import React, { useState } from "react";  
+import React, { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import classnames from "classnames";
 import {
@@ -91,54 +91,93 @@ export const GardenRoomList = () => {
   return (
     <div className="container-md px-4">
       <h2>Danh sách phòng trong vườn </h2>
-      <div className="border border-2 rounded-4 shadow pt-2 pb-3 px-5">
-        <h3 className="m-0 text-success">Thêm phòng mới</h3>
-        <div className="d-flex">
-          <div className="col-auto mb-3 addGarden">
-            <div>
-              <label
-                for="roomName"
-                className="form-label fw-semibold addGardenLabel"
-              >
-                Tên phòng
-              </label>
-              <input
-                type="text"
-                className="form-control border-success border-2 addGardenInput"
-                id="roomName"
-                name="roomName"
-                value={roomName}
-                onChange={onRoomNameChange}
-                onKeyDown={(e) => {
-                  if (e.key === "Enter") onSaveClicked();
-                }}
-              />
+      <div>
+        <div className="border border-2 rounded-4 shadow pt-2 pb-3 px-5">
+          <h3 className="m-0 text-success">Thêm phòng mới</h3>
+          <div className="d-flex">
+            <div className="d-flex mb-3 addNewRoom justify-content-between">
+              <div>
+                <label
+                  for="roomName"
+                  className="form-label fw-semibold addGardenLabel"
+                >
+                  Tên phòng
+                </label>
+                <input
+                  type="text"
+                  className="form-control border-success border-2 addGardenInput"
+                  id="roomName"
+                  name="roomName"
+                  value={roomName}
+                  onChange={onRoomNameChange}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") onSaveClicked();
+                  }}
+                />
+              </div>
+
+              <div>
+                <label
+                  for="roomName"
+                  className="form-label fw-semibold addGardenLabel"
+                >
+                  Chế độ tự động
+                </label>
+                <select
+                  className="form-select px-4 border-2 border-success addGardenInput"
+                  id="auto-mode"
+                  name="auto-mode"
+                >
+                  <option value="on">Bật</option>
+                  <option value="off">Tắt</option>
+                </select>
+              </div>
+
+              <div>
+                <label
+                  for="roomName"
+                  className="form-label fw-semibold addGardenLabel"
+                >
+                  Giá trị nhiệt
+                </label>
+                <input
+                  type="text"
+                  className="form-control border-success border-2 addGardenInput"
+                  id="tempValue"
+                  name="tempValue"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") onSaveClicked();
+                  }}
+                />
+              </div>
+            </div>
+            <div className="addGardenButton mb-3">
+              {isAdding ? (
+                <div className="spinner-border text-success" role="status">
+                  <span className="visually-hidden">Đang tải nội dung...</span>
+                </div>
+              ) : (
+                <>
+                  <button
+                    className="btn btn-success me-3"
+                    onClick={onSaveClicked}
+                  >
+                    Thêm phòng
+                  </button>
+                  <button
+                    className="btn btn-secondary"
+                    onClick={() => setRoomName("")}
+                  >
+                    Hủy thêm
+                  </button>
+                </>
+              )}
             </div>
           </div>
-          <div className="addGardenButton">
-            {isAdding ? (
-              <div className="spinner-border text-success" role="status">
-                <span className="visually-hidden">Đang tải nội dung...</span>
-              </div>
-            ) : (
-              <>
-                <button
-                  className="btn btn-success me-3"
-                  onClick={onSaveClicked}
-                >
-                  Thêm phòng
-                </button>
-                <button
-                  className="btn btn-secondary"
-                  onClick={() => setRoomName("")}
-                >
-                  Hủy thêm
-                </button>
-              </>
-            )}
-          </div>
         </div>
+        <div></div>
       </div>
+
       <div className="justify-content-center border border-2 rounded-4 shadow px-5 mt-3 pt-3 gardenList">
         <div className="col">
           <div className="col-auto d-flex justify-content-between mb-3">

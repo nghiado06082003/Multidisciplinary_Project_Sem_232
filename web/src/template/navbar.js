@@ -47,7 +47,7 @@ export const NavBar = () => {
   return (
     <>
       <div className="d-flex">
-        <div className="col-2 bg-success rounded-end-4" style={{"height": "100vh"}}>
+        <div className="col-2 bg-success" style={{"height": "100vh"}}>
           <nav className="navbar">
             <div className="container-fluid">
               <Link style={{width: '100%'}} className="navbar-brand text-white text-center d-block fw-semibold fs-3 pb-4" to="/">

@@ -11,8 +11,8 @@ function App() {
   return (
     <Routes>
       <Route path='/login' element={<LogIn />} />
+      <Route path="/" index element={<Homepage />} />
       <Route path="/" element={<NavBar />}>
-        <Route index element={<Homepage />} />
         <Route path='gardens'>
           <Route index element={<GardensList />} />
           <Route path=":garden_id/rooms">
