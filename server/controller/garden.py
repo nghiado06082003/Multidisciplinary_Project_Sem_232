@@ -71,7 +71,7 @@ class SingleGardenAPI(Resource):
         except Exception as err:
             return create_response('', err)
         
-        group_key = garden.data["_id"]
+        group_key = garden.data["_id"].lower()
         try:
             adafruit_server.delete_group(group_key=group_key)
         except:

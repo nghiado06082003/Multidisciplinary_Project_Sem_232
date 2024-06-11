@@ -117,7 +117,11 @@ class Database():
                   data):
         """Add a data to collection"""
         if collection in self.collection_name:
-                self.database[collection].insert_one(data)
+                try:   
+                    self.database[collection].insert_one(data)
+                except Exception as err:
+                    print(err)
+                    raise err
                 print("Added data to collection {}".format(collection))
         else:
             message = "Unknown collection in database: {}".format(collection)

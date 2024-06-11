@@ -5,7 +5,7 @@ import {
   useAddNewRoomMutation,
   useDeleteRoomMutation,
   useGetRoomByGardenIdQuery,
-} from "../../api/apiSlice";
+} from "./gardenService";
 
 export const GardenRoomList = () => {
   const { garden_id } = useParams();
@@ -56,7 +56,7 @@ export const GardenRoomList = () => {
         </thead>
         <tbody>
           {room_list.data.map((room) => (
-            <tr>
+            <tr key={room._id}>
               <th>{room._id}</th>
               <td>{room.name}</td>
               <td>
@@ -151,7 +151,7 @@ export const GardenRoomList = () => {
                 />
               </div>
             </div>
-            <div className="addGardenButton mb-3">
+            <div className="addGardenButton mb-">
               {isAdding ? (
                 <div className="spinner-border text-success" role="status">
                   <span className="visually-hidden">Đang tải nội dung...</span>

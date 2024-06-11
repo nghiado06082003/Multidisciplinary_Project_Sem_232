@@ -4,7 +4,7 @@ import classnames from "classnames";
 import {
   useGetDeviceByIdWithLogQuery,
   useUpdateDeviceDataMutation,
-} from "../../api/apiSlice";
+} from "./deviceService.js";
 import { Line } from "react-chartjs-2";
 import { Chart, registerables } from "chart.js";
 import "./DeviceControl.css"; // Import file CSS nếu cần cho các kiểu khác
@@ -50,7 +50,7 @@ const filterDataByTimeRange = (data, timeRange) => {
       break;
     case "all":
     default:
-      console.log(`Returning all data:`, data);
+      //console.log(`Returning all data:`, data);
       return data;
   }
 

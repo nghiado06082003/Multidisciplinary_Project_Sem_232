@@ -7,7 +7,7 @@ import {
   useAddNewGardenMutation,
   useDeleteGardenMutation,
   useGetAllGardensQuery,
-} from "../../api/apiSlice";
+} from "./gardenService";
 
 export const GardensList = () => {
   const navigate = useNavigate();

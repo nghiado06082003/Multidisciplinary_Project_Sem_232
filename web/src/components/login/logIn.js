@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useLoginMutation } from "../../api/apiSlice";
+import { useLoginMutation } from "./loginService";
 import { Link } from "react-router-dom";
 import Cookies from "universal-cookie";
 import "./logInStyle.css";

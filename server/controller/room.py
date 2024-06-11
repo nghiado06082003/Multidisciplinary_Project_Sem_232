@@ -58,7 +58,16 @@ class SingleRoomAPI(Resource):
 
     @token_require
     def put(self, room_id):
-        pass
+        try:
+            room_list = room_model.get_room(room_id)
+        except Exception as err:
+            return create_response('', err)
+        record = request.json
+        try:
+            room = room_model.update_room(record)
+        except Exception as err:
+            raise RecordUpdateError()
+        return create_response(room.data)
 
     @token_require
     def delete(self, room_id):

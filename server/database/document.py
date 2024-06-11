@@ -3,6 +3,9 @@ from datetime import datetime
 from database.error import *
 import gridfs
 
+import secrets
+import string
+
 class User():
     def __init__(self,
                  username = None,
@@ -20,8 +23,8 @@ class User():
                        collection):
 
         query = {}
-        get_id = collection._count_data(config.database.DOC_USER_LIST, query)
-        self.data["_id"] = "user{:05d}".format(get_id)
+        get_id = ''.join(secrets.choice(string.ascii_lowercase + string.digits) for i in range(8))
+        self.data["_id"] = "user{}".format(get_id)
         collection._add_data(config.database.DOC_USER_LIST, self.data)
 
     def _update_callback_(self, 
@@ -135,9 +138,9 @@ class Device():
             raise DatabaseException(message)
 
         query = {"type" : self.data["type"]}
-        get_id = collection._count_data(config.database.DOC_DEVICE_LIST, query)
+        get_id = ''.join(secrets.choice(string.ascii_lowercase + string.digits) for i in range(8))
         
-        self.feed_id = "{}{:05d}".format(self.data["type"],get_id)
+        self.feed_id = "{}{}".format(self.data["type"],get_id)
 
         self.data["_id"] = self.feed_id
 
@@ -243,12 +246,12 @@ class Garden():
                        collection):
         
         query = {}
-        get_id = collection._count_data(config.database.DOC_GARDEN_LIST, query)
+        get_id = ''.join(secrets.choice(string.ascii_lowercase + string.digits) for i in range(8))
 
         if self.data["name"] is None:
-            self.data["name"] = "YoloSmartGarden{:05d}".format(get_id)
+            self.data["name"] = "YoloSmartGarden{}".format(get_id)
         
-        self.data["_id"] = "garden{:05d}".format(get_id)
+        self.data["_id"] = "garden{}".format(get_id)
 
         collection._add_data(config.database.DOC_GARDEN_LIST, self.data)
 
@@ -311,12 +314,16 @@ class Garden():
 class Room():
     def __init__(self,
                  garden_id = None,
-                 name = None):
+                 name = None,
+                 isAutoFan = False,
+                 threshold = 37.0):
 
         self.data = {
             "_id": None,
             "garden_id" : garden_id,
-            "name" : name
+            "name" : name,
+            "isAutoFan": isAutoFan,
+            "threshold": threshold
         }
 
     def _add_callback_(self, 
@@ -329,12 +336,12 @@ class Room():
             raise DatabaseException(message)
         
         query = {}
-        get_id = collection._count_data(config.database.DOC_ROOM_LIST, query)
+        get_id = ''.join(secrets.choice(string.ascii_lowercase + string.digits) for i in range(8))
 
         if self.data["name"] is None:
-            self.data["name"] = "{}.YoloRoom{:05d}".format(self.data["garden_id"], get_id)
+            self.data["name"] = "{}.YoloRoom{}".format(self.data["garden_id"], get_id)
         
-        self.data["_id"] = "room{:05d}".format(get_id)
+        self.data["_id"] = "room{}".format(get_id)
 
         collection._add_data(config.database.DOC_ROOM_LIST, self.data)
 
