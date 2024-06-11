@@ -176,7 +176,7 @@ export const RoomDeviceList = () => {
           {room_content}
         </div>
         <div className="border border-2 rounded-4 shadow px-5">
-          <form>
+          <div>
             <div className="mt-3 mb-1">
               <div className="col-auto mb-1 adjustAutoMode">
                 <label
@@ -219,7 +219,7 @@ export const RoomDeviceList = () => {
                 </button>
               </div>
             </div>
-          </form>
+          </div>
         </div>
 
         <div className="border border-2 rounded-4 shadow px-5">
